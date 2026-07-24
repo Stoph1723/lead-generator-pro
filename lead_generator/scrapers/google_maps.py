@@ -1076,7 +1076,7 @@ class GoogleMapsScraper:
         if not self._search_crawler:
             from lead_generator.scrapers.crawler import AntiBypassCrawler
             self._search_crawler = AntiBypassCrawler(
-                timeout=10, max_retries=2, fast_mode=self.config.fast_mode,
+                timeout=6, max_retries=1, fast_mode=self.config.fast_mode,
                 proxy_server=self.config.proxy_server,
                 proxy_list_file=self.config.proxy_list_file,
                 use_free_proxies=self.config.use_free_proxies,

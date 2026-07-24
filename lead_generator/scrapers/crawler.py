@@ -142,9 +142,6 @@ ALL_FINGERPRINTS = DESKTOP_FINGERPRINTS + MOBILE_FINGERPRINTS
 FREE_PROXY_SOURCES = [
     "https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/http.txt",
     "https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/http.txt",
-    "https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list-raw.txt",
-    "https://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/https.txt",
-    "https://raw.githubusercontent.com/mmpx12/proxy-list/master/https.txt",
 ]
 
 
@@ -184,11 +181,11 @@ class ProxyManager:
     def _fetch_free_proxies(self):
         """Fetch free proxies from public lists."""
         import socket
-        socket.setdefaulttimeout(8)
+        socket.setdefaulttimeout(5)
         fetched = []
         for source_url in FREE_PROXY_SOURCES:
             try:
-                resp = requests.get(source_url, timeout=8, verify=False)
+                resp = requests.get(source_url, timeout=5, verify=False)
                 if resp.status_code == 200:
                     for line in resp.text.strip().splitlines():
                         line = line.strip()
