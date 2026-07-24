@@ -18,12 +18,17 @@
 
 ## Screenshots
 
-<!-- Add your screenshots to the screenshots/ folder and uncomment below -->
+### Interactive Menu
+![Interactive Menu](screenshots/menu.png)
 
-<!-- ![Interactive Menu](screenshots/menu.png) -->
-<!-- ![Scraping Progress](screenshots/scraping.png) -->
-<!-- ![Excel Dashboard](screenshots/dashboard.png) -->
-<!-- ![Excel Leads Sheet](screenshots/leads.png) -->
+### Scraping in Progress
+![Scraping Progress](screenshots/scraping.png)
+
+### Excel Dashboard
+![Excel Dashboard](screenshots/dashboard.png)
+
+### Excel Leads Sheet
+![Excel Leads Sheet](screenshots/leads.png)
 
 ---
 
