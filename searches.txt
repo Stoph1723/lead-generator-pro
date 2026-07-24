@@ -1,0 +1,3 @@
+dentist,Agadir Morocco
+pharmacy,Agadir Morocco
+restaurant,Agadir Morocco

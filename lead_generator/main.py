@@ -403,8 +403,8 @@ class LeadGenerator:
 
             # Skip if no useful data at all
             if not lead.phone and not lead.email and not lead.website:
-                # Keep only if we have address at least
-                if not lead.address:
+                # Keep if we have at least a name (can enrich later)
+                if not lead.business_name or len(lead.business_name) < 3:
                     continue
 
             cleaned.append(lead)
