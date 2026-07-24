@@ -228,8 +228,7 @@ class WebsiteIntelligenceExtractor:
             timeout=8, max_retries=1, fast_mode=self.config.fast_mode,
             proxy_server=self.config.proxy_server,
             proxy_list_file=self.config.proxy_list_file,
-            use_free_proxies=self.config.use_free_proxies,
-            free_proxy_refresh_interval=self.config.free_proxy_refresh_interval,
+            use_free_proxies=False,
         )
         self._lock = threading.Lock()
         self.CONTACT_PATHS = list(self.CONTACT_PATHS)  # Instance copy, not class-level
@@ -1397,7 +1396,7 @@ class WebsiteIntelligenceExtractor:
                 timeout=8, max_retries=1, fast_mode=True,
                 proxy_server=self.config.proxy_server,
                 proxy_list_file=self.config.proxy_list_file,
-                use_free_proxies=self.config.use_free_proxies,
+                use_free_proxies=False,
             )
             from urllib.parse import quote_plus
             query = f"site:{domain} email contact"
@@ -1421,7 +1420,7 @@ class WebsiteIntelligenceExtractor:
                 timeout=8, max_retries=1, fast_mode=True,
                 proxy_server=self.config.proxy_server,
                 proxy_list_file=self.config.proxy_list_file,
-                use_free_proxies=self.config.use_free_proxies,
+                use_free_proxies=False,
             )
             from urllib.parse import quote_plus
             query = f"cache:{domain} email"
@@ -1445,7 +1444,7 @@ class WebsiteIntelligenceExtractor:
                 timeout=8, max_retries=1, fast_mode=True,
                 proxy_server=self.config.proxy_server,
                 proxy_list_file=self.config.proxy_list_file,
-                use_free_proxies=self.config.use_free_proxies,
+                use_free_proxies=False,
             )
             from urllib.parse import quote_plus
 

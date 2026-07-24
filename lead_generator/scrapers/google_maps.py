@@ -438,6 +438,7 @@ class GoogleMapsScraper:
         ]
         self.web_cache = WebSearchCache()
         self._search_crawler = None
+        self._direct_crawler = None
 
     def _sleep(self, base: float):
         """Sleep with fast_mode reduction."""
@@ -814,7 +815,6 @@ class GoogleMapsScraper:
         
         1. Check web search cache first (instant)
         2. Try Bing search (fastest, works everywhere)
-        3. Try Google search via Startpage (fallback)
         """
         if lead.website:
             return lead.website
@@ -823,13 +823,11 @@ class GoogleMapsScraper:
         if cached:
             return cached
 
-        if self._search_crawler is None:
+        if not hasattr(self, '_direct_crawler') or self._direct_crawler is None:
             from lead_generator.scrapers.crawler import AntiBypassCrawler
-            self._search_crawler = AntiBypassCrawler(
-                timeout=8, max_retries=1, fast_mode=self.config.fast_mode,
-                proxy_server=self.config.proxy_server,
-                proxy_list_file=self.config.proxy_list_file,
-                use_free_proxies=self.config.use_free_proxies,
+            self._direct_crawler = AntiBypassCrawler(
+                timeout=6, max_retries=1, fast_mode=True,
+                use_free_proxies=False,
             )
 
         name = lead.business_name
@@ -863,12 +861,11 @@ class GoogleMapsScraper:
         for idx, search_term in enumerate(search_queries):
             try:
                 if idx > 0:
-                    time.sleep(2)
+                    time.sleep(1)
                 url = f"https://www.bing.com/search?q={quote_plus(search_term)}&count=5"
-                html = self._search_crawler.fetch(url, use_referrer=False, accept_gzip=False)
+                html = self._direct_crawler.fetch(url, use_referrer=False, accept_gzip=False)
                 if not html or len(html) < 500:
-                    time.sleep(3)
-                    html = self._search_crawler.fetch(url, use_referrer=False, accept_gzip=False)
+                    html = self._direct_crawler.fetch(url, use_referrer=False, accept_gzip=False)
                 if not html:
                     continue
                 soup = BeautifulSoup(html, "lxml")
