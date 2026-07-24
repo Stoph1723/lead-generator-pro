@@ -82,7 +82,7 @@ class ScraperConfig:
     # Proxy settings
     proxy_server: Optional[str] = None  # e.g., "http://user:pass@proxy:port"
     proxy_list_file: Optional[str] = None  # Path to file with one proxy per line
-    use_free_proxies: bool = True  # Auto-fetch free proxies from public lists (enabled by default)
+    use_free_proxies: bool = False  # Auto-fetch free proxies (enable with --free-proxies for extra stealth)
     free_proxy_refresh_interval: int = 300  # Seconds between free proxy list refresh
 
     # Anti-detection
