@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Output (user-generated)
+output/
+*.csv
+*.xlsx
+
+# Cache
+cache/
+*.cache
+
+# Logs
+*.log
+
+# Temporary
+*.tmp
+*.bak
+test_*.py
