@@ -177,41 +177,27 @@ def write_cold_email(business: Dict) -> Optional[Dict]:
     if website_info:
         website_section = f"\n\nWebsite content:\n{website_info[:500]}"
 
-    prompt = f"""Write a cold email for this business. Here's an example of a good one:
+    prompt = f"""Write a cold email for this business.
 
-EXAMPLE (for a pizza restaurant with 4.5 stars and 320 reviews):
-Subject: "Your 4.5 rating tells me you're doing something right"
-Body:
-Hi Pizza Palace team,
-
-Your 4.5-star rating with 320 reviews tells me you're already doing great work. But I noticed you don't have an email list to keep those customers coming back.
-
-I build simple email tools that help restaurants send weekly specials and birthday deals. One pizza place I worked with got 40% more repeat orders after 2 months.
-
-Want to see how it works for a place like yours?
-
-Best,
-Mustapha Elasri
-See what I've built: https://github.com/Stoph1723/lead-generator-pro
-
-NOW WRITE ONE FOR THIS BUSINESS:
 {biz_context}
 
-My services: {services_text}
+Write in {lang_name} language.
+
+Format exactly like this:
+Subject: Quick question about your business
+Body: Hi Business Name team,\\n\\nI found your business and wanted to reach out.\\n\\nI'm a Python developer specializing in automation bots. I can build:\\n\\n- Service 1\\n- Service 2\\n- Service 3\\n- Service 4\\n\\nI work fast and deliver clean, working code.\\n\\nInterested? Just reply to this email.\\n\\nBest,\\nMustapha Elasri\\nSee what I've built: https://github.com/Stoph1723/lead-generator-pro
 
 Rules:
-- Reference their specific rating, reviews, or description
-- Mention ONE specific service and how it helps them
-- Give a concrete result (numbers if possible)
-- 80-150 words
-- Short paragraphs
-- No buzzwords, no emojis, no spam words
-- Don't be salesy
-- End with ONE question
-- Write in {lang_name} language
+- Start with "Hi {biz_name} team,"
+- Mention why you're reaching out (their rating, reviews, or what they do)
+- List 3-4 services as bullet points (use "- " before each)
+- Keep it short and direct
+- 50-100 words total
+- No buzzwords, no emojis
+- ALWAYS include the full signature at the end: {greeting}\\n{SENDER_NAME}\\n{SENDER_PORTFOLIO}
 
-Signature (always exactly this, each on its own line separated by \\n):
-{greeting}\\n{SENDER_NAME}\\n{SENDER_PORTFOLIO}
+Services to choose from (pick 3-4 that fit):
+{services_text}
 
 Return ONLY valid JSON: {{"subject": "...", "body": "..."}}"""
 
@@ -246,7 +232,7 @@ Return ONLY valid JSON: {{"subject": "...", "body": "..."}}"""
                         "model": AI_MODEL,
                         "messages": [{"role": "user", "content": prompt}],
                         "temperature": 0.7,
-                        "max_tokens": 500,
+                        "max_tokens": 800,
                     },
                     timeout=30,
                 )
@@ -333,7 +319,14 @@ Return ONLY valid JSON: {{"subject": "...", "body": "..."}}"""
                     return _fallback_email(business)
                 result = {"subject": subject, "body": body}
             if "subject" in result and "body" in result:
-                result["body"] = result["body"].rstrip().rstrip("}").rstrip()
+                body = result["body"].strip().strip('"')
+                body = re.sub(r'"\s*\+\s*"', '', body)
+                body = re.sub(r'\?"\s*$', '?', body)
+                body = re.sub(r'"\s*$', '', body)
+                body = body.rstrip("}").rstrip()
+                if SENDER_NAME not in body:
+                    body = body.rstrip() + "\n\n" + greeting + "\n" + SENDER_NAME + "\n" + SENDER_PORTFOLIO
+                result["body"] = body
                 if detected_lang != "en" and greeting != "Best,":
                     body = result["body"]
                     body = re.sub(r"Best,?\s*\n?", f"{greeting}\n", body)
