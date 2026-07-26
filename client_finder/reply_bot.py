@@ -36,8 +36,12 @@ from client_finder.config import (
 )
 from client_finder.notifier import send_telegram
 from client_finder.tracker import stats_to_telegram, check_opens
-from client_finder.inbox import check_replies, notify_new_replies
 from client_finder.sender import send_email
+
+try:
+    from client_finder.inbox import check_replies
+except ImportError:
+    check_replies = None
 
 TELEGRAM_API = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}"
 _offset = 0
@@ -156,6 +160,9 @@ def _handle_message(text: str, chat_id: str):
         return
 
     if text_lower == "/inbox":
+        if not check_replies:
+            _send_message("Gmail inbox monitoring not configured.", chat_id)
+            return
         _send_message("Checking Gmail for replies...", chat_id)
         replies = check_replies()
 

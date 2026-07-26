@@ -393,18 +393,27 @@ def run_interactive():
         MAX_BUSINESSES,
         MAX_EMAILS_TO_SEND,
         ENRICHMENT_WORKERS,
+        GROQ_API_KEY,
         OPENROUTER_API_KEY,
+        GEMINI_API_KEY,
         BREVO_SMTP_KEY,
+        BREVO_API_KEY,
         TELEGRAM_BOT_TOKEN,
+        SENDER_NAME,
+        SENDER_EMAIL,
     )
 
     issues = []
-    if not OPENROUTER_API_KEY:
-        issues.append("OpenRouter API key not set (AI will use fallback)")
-    if not BREVO_SMTP_KEY:
-        issues.append("Brevo SMTP key not set (emails will NOT be sent)")
+    if not GROQ_API_KEY and not OPENROUTER_API_KEY and not GEMINI_API_KEY:
+        issues.append("No AI API key set (Groq recommended — free at console.groq.com)")
+    if not BREVO_SMTP_KEY and not BREVO_API_KEY:
+        issues.append("Brevo API keys not set (emails will NOT be sent)")
     if not TELEGRAM_BOT_TOKEN:
         issues.append("Telegram token not set (alerts print to console)")
+    if SENDER_NAME == "Your Name":
+        issues.append("SENDER_NAME is still 'Your Name' — change in config.py")
+    if SENDER_EMAIL == "your@email.com":
+        issues.append("SENDER_EMAIL is still 'your@email.com' — change in config.py")
 
     show_config_issues(issues)
 
@@ -1072,6 +1081,18 @@ def run_quick_dork():
 
     print_step(3, 4, "Sending emails...")
     send_items = [e for e in emails if e.get("subject") and e.get("body")]
+
+    dry_run = get_yes_no("Send real emails?", default=False)
+    if dry_run:
+        print_info("Dry run — showing first 3 emails:")
+        for item in send_items[:3]:
+            print(f"\n  To: {item.get('email', '')}")
+            print(f"  Subject: {item.get('subject', '')}")
+            print(f"  Body preview: {item.get('body', '')[:100]}...")
+        print()
+        input(f"  {Colors.DIM}Press Enter to return to menu...{Colors.RESET}")
+        return
+
     stats = send_emails_batch(send_items, safe_int(MAX_EMAILS_TO_SEND))
 
     for item in stats.get("results", []):

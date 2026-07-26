@@ -308,7 +308,8 @@ def start_bot():
     chat_history = []
     last_update_id = 0
 
-    _send_reply(int(TELEGRAM_CHAT_ID), "🤖 <b>Client Finder Bot Online!</b>\n\nAsk me anything about your leads, emails, or the tool.\nType /help for commands.")
+    if TELEGRAM_CHAT_ID and TELEGRAM_CHAT_ID.isdigit():
+        _send_reply(int(TELEGRAM_CHAT_ID), "🤖 <b>Client Finder Bot Online!</b>\n\nAsk me anything about your leads, emails, or the tool.\nType /help for commands.")
 
     print("  Listening for messages...")
     while True:
@@ -356,7 +357,8 @@ def start_bot():
 
         except KeyboardInterrupt:
             print("\n  Bot stopped.")
-            _send_reply(int(TELEGRAM_CHAT_ID), "🤖 Bot going offline. See you!")
+            if TELEGRAM_CHAT_ID and TELEGRAM_CHAT_ID.isdigit():
+                _send_reply(int(TELEGRAM_CHAT_ID), "🤖 Bot going offline. See you!")
             break
         except Exception as e:
             print(f"  [!] Bot error: {e}")

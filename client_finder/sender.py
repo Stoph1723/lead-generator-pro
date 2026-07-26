@@ -30,10 +30,9 @@ def validate_email(email: str) -> bool:
     domain = email.split("@")[1].lower()
 
     # Filter placeholder emails
-    placeholders = ["your", "example", "test", "admin", "info", "contact",
+    placeholders = ["your", "example", "test", "admin",
                     "email", "user", "name", "sample", "demo", "placeholder",
-                    "changeme", "replace", "insert", "me", "someone", "anyone",
-                    "nom", "prenom", "votre", "johndoe", "janedoe"]
+                    "changeme", "replace", "insert", "me", "someone", "anyone"]
     for p in placeholders:
         if local == p or local.startswith(p + ".") or local.startswith(p + "_") or local.startswith(p + "-"):
             return False

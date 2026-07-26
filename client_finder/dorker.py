@@ -532,10 +532,10 @@ def _valid_email(email):
 
 FAKE_TLDS = {
     "wct", "xyz", "tk", "ml", "ga", "cf", "gq", "top", "buzz",
-    "click", "link", "work", "day", "live", "rock", "ninja",
+    "click", "link", "work", "day", "rock", "ninja",
     "guru", "expert", "today", "date", "chat", "fun", "surf",
     "men", "racing", "win", "bid", "loan", "review", "download",
-    "party", "dating", "vegas", "horse", "kitchen", "fashion",
+    "party", "dating", "horse",
     "plumbing", "plumber", "attorney", "lawyer", "clinic", "dental",
     "dentist", "cleaning", "carpet", "locksmith", "mover", "roofing",
     "hvac", "pest", "tree", "lawn", "electrician", "painter",
