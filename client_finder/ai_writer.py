@@ -14,7 +14,6 @@ import json
 import time
 import requests
 from typing import Dict, Optional
-from urllib.parse import urljoin
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
@@ -208,6 +207,7 @@ Return ONLY valid JSON: {{"subject": "...", "body": "..."}}"""
 
     try:
         for attempt in range(3):
+            content = None
             if AI_PROVIDER == "gemini" and GEMINI_API_KEY:
                 response = requests.post(
                     f"https://generativelanguage.googleapis.com/v1beta/models/{AI_MODEL}:generateContent?key={GEMINI_API_KEY}",
@@ -216,8 +216,12 @@ Return ONLY valid JSON: {{"subject": "...", "body": "..."}}"""
                     timeout=30,
                 )
                 if response.status_code == 200:
-                    data = response.json()
-                    content = data["candidates"][0]["content"]["parts"][0]["text"]
+                    try:
+                        data = response.json()
+                        content = data["candidates"][0]["content"]["parts"][0]["text"]
+                    except (KeyError, IndexError, TypeError) as e:
+                        print(f"  [!] Gemini response parse error: {e}")
+                        break
                 elif response.status_code == 429:
                     wait = (attempt + 1) * 10
                     print(f"  [!] Rate limited, waiting {wait}s...")
@@ -247,11 +251,15 @@ Return ONLY valid JSON: {{"subject": "...", "body": "..."}}"""
                     time.sleep(wait)
                     continue
                 if response.status_code == 200:
-                    data = response.json()
-                    if "choices" not in data or not data["choices"]:
-                        print(f"  [!] AI returned no choices")
-                        return _fallback_email(business)
-                    content = data["choices"][0]["message"]["content"]
+                    try:
+                        data = response.json()
+                        if "choices" not in data or not data["choices"]:
+                            print(f"  [!] AI returned no choices")
+                            return _fallback_email(business)
+                        content = data["choices"][0]["message"]["content"]
+                    except (KeyError, IndexError, TypeError) as e:
+                        print(f"  [!] Groq response parse error: {e}")
+                        break
                 else:
                     print(f"  [!] AI error {response.status_code}")
                     break
@@ -276,14 +284,21 @@ Return ONLY valid JSON: {{"subject": "...", "body": "..."}}"""
                     time.sleep(wait)
                     continue
                 if response.status_code == 200:
-                    data = response.json()
-                    if "choices" not in data or not data["choices"]:
-                        print(f"  [!] AI returned no choices")
-                        return _fallback_email(business)
-                    content = data["choices"][0]["message"]["content"]
+                    try:
+                        data = response.json()
+                        if "choices" not in data or not data["choices"]:
+                            print(f"  [!] AI returned no choices")
+                            return _fallback_email(business)
+                        content = data["choices"][0]["message"]["content"]
+                    except (KeyError, IndexError, TypeError) as e:
+                        print(f"  [!] OpenRouter response parse error: {e}")
+                        break
                 else:
                     print(f"  [!] AI error {response.status_code}")
                     break
+
+            if content is None:
+                continue
 
             content = content.strip()
             if content.startswith("```"):

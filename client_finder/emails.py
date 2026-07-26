@@ -95,8 +95,11 @@ def find_email(business: Dict) -> Optional[str]:
     if not website.startswith("http"):
         website = "https://" + website
 
-    config = ScraperConfig(fast_mode=True)
-    extractor = WebsiteIntelligenceExtractor(config)
+    try:
+        config = ScraperConfig(fast_mode=True)
+        extractor = WebsiteIntelligenceExtractor(config)
+    except Exception:
+        return None
 
     try:
         info = extractor.find_contacts(website)
@@ -104,9 +107,12 @@ def find_email(business: Dict) -> Optional[str]:
             if not business.get("category") or business.get("category") == "website":
                 desc = info.get("description", "")
                 if desc:
-                    btype = extractor.classify_business(desc)
-                    if btype != "unknown":
-                        business["category"] = btype
+                    try:
+                        btype = extractor.classify_business(desc)
+                        if btype != "unknown":
+                            business["category"] = btype
+                    except Exception:
+                        pass
             return info["emails"][0]
     except Exception:
         pass

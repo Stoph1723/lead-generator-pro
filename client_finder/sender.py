@@ -8,9 +8,13 @@ Created by: Mustapha Elasri
 """
 
 import time
-import dns.resolver
 import requests
 from typing import Dict, List
+
+try:
+    import dns.resolver
+except ImportError:
+    dns = None
 
 from client_finder.config import (
     BREVO_API_KEY,
@@ -48,14 +52,19 @@ def validate_email(email: str) -> bool:
     if domain.startswith("www."):
         return False
 
+    if dns is None:
+        return True
+
     try:
-        mx_records = dns.resolver.resolve(domain, "MX")
-        return len(mx_records) > 0
+        dns.resolver.resolve(domain, "MX", lifetime=5)
+        return True
     except dns.resolver.NXDOMAIN:
         return False
     except dns.resolver.NoAnswer:
         return False
     except dns.resolver.NoNameservers:
+        return False
+    except dns.resolver.Timeout:
         return False
     except Exception:
         return False
@@ -126,9 +135,16 @@ def send_emails_batch(emails: List[Dict], max_emails: int = 100) -> Dict:
     tracking = _load_tracking()
     sent_list = tracking.get("sent", [])
     if isinstance(sent_list, dict):
-        already_sent = {k.lower() for k in sent_list.keys()}
+        already_sent = {k.lower() for k in sent_list.keys() if isinstance(k, str)}
+    elif isinstance(sent_list, list):
+        already_sent = set()
+        for s in sent_list:
+            if isinstance(s, dict):
+                email = s.get("email", "")
+                if email:
+                    already_sent.add(email.lower())
     else:
-        already_sent = {s.get("email", "").lower() for s in sent_list}
+        already_sent = set()
 
     sent = 0
     failed = 0
