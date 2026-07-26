@@ -42,7 +42,12 @@ def _read_website(website: str) -> str:
     if not website.startswith("http"):
         website = "https://" + website
 
-    crawler = AntiBypassCrawler(timeout=10, max_retries=1, fast_mode=True)
+    from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeout
+
+    def _fetch_with_timeout(url, timeout=8):
+        crawler = AntiBypassCrawler(timeout=timeout, max_retries=1, fast_mode=True)
+        return crawler.fetch(url)
+
     info_parts = []
 
     pages_to_check = [
@@ -56,7 +61,10 @@ def _read_website(website: str) -> str:
     for path, label in pages_to_check:
         url = website.rstrip("/") + path
         try:
-            html = crawler.fetch(url)
+            with ThreadPoolExecutor(max_workers=1) as executor:
+                future = executor.submit(_fetch_with_timeout, url, 8)
+                html = future.result(timeout=10)
+
             if not html:
                 continue
 
