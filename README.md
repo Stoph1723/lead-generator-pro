@@ -6,6 +6,8 @@
 
 **No API keys. No limits. No paywalls.**
 
+> Looking for the **Client Finder** cold email tool? It's in a separate repo: [client-finder](https://github.com/Stoph1723/client-finder)
+
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey?style=for-the-badge)
 ![Stars](https://img.shields.io/github/stars/Stoph1723/lead-generator-pro?style=for-the-badge&color=yellow)
