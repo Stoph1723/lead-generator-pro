@@ -642,6 +642,7 @@ def run_serper_interactive():
 
     # Track
     from client_finder.tracker import track_email_sent, check_opens
+    from client_finder.notifier import send_telegram
     for r in result.get("results", []):
         if r["status"] == "sent":
             track_email_sent(name=r.get("name", ""), email=r["email"], subject=r["subject"])
