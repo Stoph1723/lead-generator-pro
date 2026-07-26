@@ -183,20 +183,18 @@ def write_cold_email(business: Dict) -> Optional[Dict]:
 
 Write in {lang_name} language.
 
-Format exactly like this:
-Subject: Quick question about your business
-Body: Hi Business Name team,\\n\\nI found your business and wanted to reach out.\\n\\nI'm a Python developer specializing in automation bots. I can build:\\n\\n- Service 1\\n- Service 2\\n- Service 3\\n- Service 4\\n\\nI work fast and deliver clean, working code.\\n\\nInterested? Just reply to this email.\\n\\nBest,\\nMustapha Elasri\\nSee what I've built: https://github.com/Stoph1723/lead-generator-pro
-
 Rules:
 - Start with "Hi {biz_name} team,"
-- Mention why you're reaching out (their rating, reviews, or what they do)
-- List 3-4 services as bullet points (use "- " before each)
-- Keep it short and direct
-- 50-100 words total
+- First line: mention something specific about their business (rating, reviews, what they do)
+- Pick 3-4 services that fit a {biz_category}
+- After each service, explain WHY they need it — make them want it
+- Format: "- Service — why they need this and what result it gets"
+- End with a soft call to action
+- 50-120 words total
 - No buzzwords, no emojis
-- ALWAYS include the full signature at the end: {greeting}\\n{SENDER_NAME}\\n{SENDER_PORTFOLIO}
+- ALWAYS end with: {greeting}\\n{SENDER_NAME}\\n{SENDER_PORTFOLIO}
 
-Services to choose from (pick 3-4 that fit):
+All services (pick the best 3-4):
 {services_text}
 
 Return ONLY valid JSON: {{"subject": "...", "body": "..."}}"""
