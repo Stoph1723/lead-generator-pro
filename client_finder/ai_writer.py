@@ -210,10 +210,8 @@ Rules:
 - End with ONE question
 - Write in {lang_name} language
 
-Signature (always exactly this):
-{greeting}
-{SENDER_NAME}
-{SENDER_PORTFOLIO}
+Signature (always exactly this, each on its own line separated by \\n):
+{greeting}\\n{SENDER_NAME}\\n{SENDER_PORTFOLIO}
 
 Return ONLY valid JSON: {{"subject": "...", "body": "..."}}"""
 
@@ -335,6 +333,7 @@ Return ONLY valid JSON: {{"subject": "...", "body": "..."}}"""
                     return _fallback_email(business)
                 result = {"subject": subject, "body": body}
             if "subject" in result and "body" in result:
+                result["body"] = result["body"].rstrip().rstrip("}").rstrip()
                 if detected_lang != "en" and greeting != "Best,":
                     body = result["body"]
                     body = re.sub(r"Best,?\s*\n?", f"{greeting}\n", body)
