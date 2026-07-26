@@ -22,11 +22,32 @@ from client_finder.config import (
 
 
 def validate_email(email: str) -> bool:
-    """Validate email by checking MX record exists."""
+    """Validate email by checking MX record exists and filtering junk."""
     if not email or "@" not in email:
         return False
 
-    domain = email.split("@")[1]
+    local = email.split("@")[0].lower()
+    domain = email.split("@")[1].lower()
+
+    # Filter placeholder emails
+    placeholders = ["your", "example", "test", "admin", "info", "contact",
+                    "email", "user", "name", "sample", "demo", "placeholder",
+                    "changeme", "replace", "insert", "me", "someone", "anyone",
+                    "nom", "prenom", "votre", "johndoe", "janedoe"]
+    for p in placeholders:
+        if local == p or local.startswith(p + ".") or local.startswith(p + "_") or local.startswith(p + "-"):
+            return False
+
+    # Filter fake domains
+    fake_domains = ["example.com", "test.com", "mysite.com", "yourdomain.com",
+                    "domain.com", "email.com", "website.com", "company.com"]
+    for d in fake_domains:
+        if domain == d or domain.endswith("." + d):
+            return False
+
+    # Filter domains starting with www
+    if domain.startswith("www."):
+        return False
 
     try:
         mx_records = dns.resolver.resolve(domain, "MX")
@@ -136,6 +157,11 @@ def send_emails_batch(emails: List[Dict], max_emails: int = 100) -> Dict:
         name = item.get("name", "")
 
         if not to_email or not subject or not body:
+            continue
+
+        if not validate_email(to_email):
+            print(f"  [!] Skipping invalid email: {to_email}")
+            skipped += 1
             continue
 
         success = send_email(to_email, subject, body)

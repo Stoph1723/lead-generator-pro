@@ -56,6 +56,27 @@ def scrape_businesses(query: str, location: str, max_results: int = 50) -> List[
             "rating": getattr(lead, "rating", "") or "",
             "source": getattr(lead, "source", "") or "",
         }
+        # Filter placeholder emails
+        if biz["email"]:
+            email_local = biz["email"].split("@")[0].lower()
+            email_domain = biz["email"].split("@")[1].lower() if "@" in biz["email"] else ""
+            placeholders = ["your", "example", "test", "admin", "email", "user", "name",
+                           "sample", "demo", "placeholder", "changeme", "replace", "insert"]
+            fake_domains = ["example.com", "test.com", "mysite.com", "yourdomain.com",
+                           "domain.com", "email.com", "website.com", "company.com"]
+            is_bad = False
+            for p in placeholders:
+                if email_local == p or email_local.startswith(p + ".") or email_local.startswith(p + "_"):
+                    is_bad = True
+                    break
+            for d in fake_domains:
+                if email_domain == d or email_domain.endswith("." + d):
+                    is_bad = True
+                    break
+            if email_domain.startswith("www."):
+                is_bad = True
+            if is_bad:
+                biz["email"] = ""
         if biz["name"]:
             if _is_excluded(biz):
                 excluded_count += 1
