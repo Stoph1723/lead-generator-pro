@@ -94,10 +94,7 @@ class WebsiteIntelligenceExtractor:
         "/联系我们", "/关于我们", "/团队",
         "/お問い合わせ", "/会社概要",
         "/اتصل بنا", "/من نحن",
-        "/legal", "/privacy", "/terms",
-        "/directory", "/office", "/customer-service",
-        "/who-we-are", "/what-we-do", "/footer",
-        "/imprint", "/disclaimer",
+        "/sitemap.xml",
     ]
 
     EMAIL_REGEXES = [
@@ -218,106 +215,7 @@ class WebsiteIntelligenceExtractor:
         r"smtp\.", r"mx\.", r"alt[0-9]\.", r"aspmx\.",
         r"google\.com", r"outlook\.com", r"yahoo\.com",
         r"hotmail\.com", r"protonmail\.com", r"zoho\.com",
-        r"^nom@", r"^name@", r"^prenom@", r"^votre@",
-        r"^votre\.email@", r"^email@", r"^user@",
-        r"^fname@", r"^lname@", r"^first\.last@",
-        r"^johndoe@", r"^janedoe@", r"^doe@",
-        r"^changeme@", r"^replace@", r"^insert@",
-        r"^your[_-]?email@", r"^your[_-]?name@",
-        r"^me@", r"^someone@", r"^anyone@",
-        r"^hello@", r"^hi@", r"^hey@",
-        r"^admin@", r"^info@localhost",
-        r"^placeholder@", r"^sample@", r"^demo@",
-        r"^your@", r"^your\.email@", r"^your_email@",
-        r"^example@", r"^example\.",
-        r"email@example", r"email@domain", r"email@your",
-        r"your@email", r"your_email@domain", r"your@email\.com",
-        r"example@mysite", r"test@example", r"name@example",
-        r"your@email\.com", r"your_email@example",
-        r"antispam", r"antispamcloud", r"rzone\.de",
-        r"spam", r"filter[0-9]", r"smtpin\.",
-        r"wixsite\.com", r"wix\.com",
-        r"cloudflare", r"cloudfront", r"amazonaws\.com",
-        r"herokuapp\.com", r"vercel\.app", r"netlify\.app",
-        r"mailerlite\.", r"sendgrid\.", r"mailchimp\.",
-        r"bounces\.", r"bounce\.", r"returnpath\.",
-        r"doubleclick\.net", r"googlesyndication",
-        r"archive\.org", r"secureserver\.net", r"go Daddy",
-        r"mediarelations@", r"press@", r"media@",
-        r"\.\.", r"\.correo$", r"\.com\.", r"\.org\.",
-        r"^[a-z](?:info|contact|hello|support|sales|office|admin|booking|reservation|enquiries)@",
-        r"^[a-z]{2}(?:info|contact|hello|support|sales|office|admin|booking|reservation|enquiries)@",
-        r"^-",
     ]
-
-    FAKE_TLDS = {
-        "wct", "xyz", "tk", "ml", "ga", "cf", "gq", "top", "buzz",
-        "click", "link", "work", "day", "live", "rock", "ninja",
-        "guru", "expert", "today", "date", "chat", "fun", "surf",
-        "men", "racing", "win", "bid", "loan", "review", "download",
-        "party", "dating", "vegas", "horse", "kitchen", "fashion",
-        "plumbing", "plumber", "attorney", "lawyer", "clinic", "dental",
-        "dentist", "cleaning", "carpet", "locksmith", "mover", "roofing",
-        "hvac", "pest", "tree", "lawn", "electrician", "painter",
-        "handyman", "contractor", "construction", "maid", "landscaping",
-        "pool", "spa", "fitness", "gym", "yoga", "salon", "beauty",
-        "nail", "hair", "barber", "chiro", "optometrist", "physio",
-        "therapy", "counseling", "psychiatrist", "psychologist",
-        "nutrition", "diet", "weight", "bootcamp", "crossfit", "martial",
-        "boxing", "gymnastics", "dance", "music", "art", "photo", "video",
-        "film", "dj", "band", "event", "wedding", "rental", "catering",
-        "bakery", "coffee", "cafe", "restaurant", "bar", "pub", "brewery",
-        "winery", "vineyard", "farm", "garden", "nursery", "pet", "vet",
-        "animal", "dog", "cat", "bird", "fish", "reptile", "aquarium",
-        "zoo", "museum", "gallery", "theater", "cinema", "park", "beach",
-        "mountain", "lake", "river", "island", "forest", "desert",
-        "city", "town", "village", "country", "world", "earth", "moon",
-        "star", "sun", "sky", "cloud", "rain", "snow", "wind", "fire",
-        "water", "air", "space", "time", "love", "peace", "war", "hope",
-        "dream", "magic", "fantasy", "adventure", "quest", "journey",
-        "travel", "tour", "trip", "vacation", "holiday", "cruise",
-        "flight", "hotel", "hostel", "camp", "resort", "wellness",
-        "health", "medical", "hospital", "pharmacy", "drug", "pill",
-        "vitamin", "supplement", "cbd", "cannabis", "weed", "marijuana",
-        "hemp", "thc", "psychedelic", "mushroom", "lsd", "mdma",
-        "ecstasy", "cocaine", "heroin", "fentanyl", "meth", "amphetamine",
-        "steroid", "testosterone", "hgh", "peptide", "sarm", "prohormone",
-        "novelty", "fake", "replica", "counterfeit", "knockoff",
-        "discount", "sale", "deal", "offer", "coupon", "promo", "voucher",
-        "cashback", "reward", "loyalty", "points", "miles", "credit",
-        "debit", "finance", "invest", "stock", "crypto", "bitcoin",
-        "ethereum", "blockchain", "nft", "metaverse",
-    }
-
-    BUSINESS_TYPES = {
-        "barbershop": ["barber", "barbershop", "barber shop", "haircut", "shave", "fade", "trim", "mens hair", "gentlemen", "tonsorial"],
-        "hair_salon": ["salon", "hairdresser", "hairdressers", "hair stylist", "hair stylist", "blow dry", "hair color", "highlights", "balayage", "keratin", "extensions", "braids"],
-        "gym": ["gym", "fitness", "workout", "exercise", "personal trainer", "crossfit", "weight training", "cardio", "strength training", "muscle", "bodybuilding", "strength", "conditioning", "squats", "deadlift", "bench press", "health club", "training", "trainer", "studio", "pilates", "yoga", "membership", "member", "classes", "group fitness", "equipment", "treadmill", "dumbbell", "barbell", "squat rack", "locker", "sauna", "spa", "pool"],
-        "restaurant": ["restaurant", "dining", "menu", "appetizer", "entree", "dessert", "chef", "cuisine", "reservations", "food", "meal", "dinner", "lunch", "breakfast", "brunch"],
-        "cafe": ["cafe", "coffee", "espresso", "latte", "cappuccino", "mocha", "brew", "barista", "pastry", "sandwich", "teahouse", "tearoom"],
-        "bar": ["bar", "pub", "tavern", "lounge", "cocktail", "beer", "wine", "liquor", "spirits", "drinks", "happy hour", "nightclub"],
-        "hotel": ["hotel", "motel", "inn", "resort", "accommodation", "lodging", "suite", "room", "booking", "check-in", "concierge", "hospitality"],
-        "dental": ["dentist", "dental", "teeth", "tooth", "cavity", "root canal", "crown", "bridge", "implant", "whitening", "orthodont", "braces", "invisalign", "periodontal", "oral surgery"],
-        "medical": ["doctor", "physician", "clinic", "medical", "healthcare", "patient", "diagnosis", "treatment", "prescription", "surgery", "hospital", "care"],
-        "lawyer": ["lawyer", "attorney", "legal", "law firm", "litigation", "court", "lawsuit", "counsel", "paralegal", "juris doctor", "esquire"],
-        "real_estate": ["real estate", "realtor", "property", "listing", "house", "apartment", "condo", "mortgage", "buyer", "seller", "open house", "foreclosure"],
-        "plumber": ["plumber", "plumbing", "pipe", "leak", "drain", "faucet", "toilet", "water heater", "sewer", "clog", "sump pump", "backflow"],
-        "electrician": ["electrician", "electrical", "wiring", "circuit", "breaker", "outlet", "switch", "panel", "lighting", "generator", "surge protector"],
-        "landscaping": ["landscaping", "lawn", "garden", "mowing", "hedging", "tree trimming", "mulch", "sprinkler", "irrigation", "sod", "design"],
-        "cleaning": ["cleaning", "janitorial", "maid", "housekeeping", "carpet cleaning", "window cleaning", "pressure washing", "sanitization", "deep clean"],
-        "roofing": ["roofing", "roof", "shingle", "gutter", "siding", "flashing", "membrane", "waterproofing", "inspection", "repair"],
-        "construction": ["construction", "contractor", "building", "remodeling", "renovation", "addition", "demolition", "framing", "drywall", "carpentry"],
-        "auto_repair": ["auto repair", "mechanic", "garage", "oil change", "brake", "tire", "engine", "transmission", "diagnostic", "inspection"],
-        "pet": ["pet", "animal", "dog", "cat", "grooming", "veterinary", "vet", "kennel", "boarding", "adoption", "pet store", "pet shop"],
-        "bakery": ["bakery", "bakery", "bread", "cake", "pastry", "cookie", "pie", "donut", "croissant", "baguette", "baking"],
-        "photography": ["photography", "photographer", "photo", "portrait", "wedding photo", "event photo", "studio", "headshot", "boudoir", "family photo"],
-        "spa": ["spa", "massage", "facial", "skincare", "waxing", "nails", "manicure", "pedicure", "relaxation", "wellness"],
-        "yoga": ["yoga", "pilates", "meditation", "mindfulness", "stretching", "breathing", "studio", "class", "mat", "pose"],
-        "accounting": ["accountant", "accounting", "tax", "bookkeeping", "payroll", "audit", "financial statement", "cpa", "tax return"],
-        "marketing": ["marketing", "advertising", "seo", "social media", "content", "branding", "campaign", "digital marketing", "agency"],
-        "web_design": ["web design", "website", "wordpress", "e-commerce", "ui/ux", "graphic design", "logo", "development", "hosting"],
-        "default": [],
-    }
 
     HOURS_PATTERNS = [
         r"(?:Mon|Monday|Lundi)\w*[\s:\-]+(\d{1,2}[:.]?\d{2})\s*[\-–to]+\s*(\d{1,2}[:.]?\d{2})",
@@ -327,7 +225,7 @@ class WebsiteIntelligenceExtractor:
     def __init__(self, config: Optional[ScraperConfig] = None):
         self.config = config or ScraperConfig()
         self.crawler = AntiBypassCrawler(
-            timeout=5, max_retries=1, fast_mode=self.config.fast_mode,
+            timeout=8, max_retries=1, fast_mode=self.config.fast_mode,
             proxy_server=self.config.proxy_server,
             proxy_list_file=self.config.proxy_list_file,
             use_free_proxies=False,
@@ -376,63 +274,56 @@ class WebsiteIntelligenceExtractor:
 
         pages_to_check = [website_url]
         if crawl_pages:
-            max_pages = 4 if self.config.fast_mode else self.config.max_pages_per_website
-            priority_paths = ["/contact", "/about", "/about-us", "/contact-us",
-                            "/legal", "/privacy", "/terms", "/team", "/staff"]
-            for path in priority_paths[:max_pages]:
+            max_pages = 3 if self.config.fast_mode else self.config.max_pages_per_website
+            for path in self.CONTACT_PATHS[:max_pages + 1]:
                 page_url = base + path
                 if page_url not in pages_to_check:
                     pages_to_check.append(page_url)
 
-            if not self.config.fast_mode:
-                try:
-                    sitemap_url = base + "/sitemap.xml"
-                    sitemap_html = self.crawler.fetch(sitemap_url, use_referrer=False)
-                    if sitemap_html and "<url>" in sitemap_html:
-                        sitemap_urls = re.findall(r"<loc>(.*?)</loc>", sitemap_html)
-                        for surl in sitemap_urls:
-                            sl = surl.lower()
-                            if any(kw in sl for kw in ["contact", "about", "team", "staff", "email",
-                                                       "support", "help", "nous", "contacter",
-                                                       "kontakt", "about-us", "impressum",
-                               "legal", "privacy", "terms", "directory", "office",
-                               "customer-service", "who-we-are", "what-we-do",
-                               "imprint", "disclaimer", "footer", "info"]):
-                                if surl not in pages_to_check:
-                                    pages_to_check.append(surl)
-                except Exception:
-                    pass
+            try:
+                sitemap_url = base + "/sitemap.xml"
+                sitemap_html = self.crawler.fetch(sitemap_url, use_referrer=False)
+                if sitemap_html and "<url>" in sitemap_html:
+                    sitemap_urls = re.findall(r"<loc>(.*?)</loc>", sitemap_html)
+                    for surl in sitemap_urls:
+                        sl = surl.lower()
+                        if any(kw in sl for kw in ["contact", "about", "team", "staff", "email",
+                                                   "support", "help", "nous", "contacter",
+                                                   "kontakt", "about-us", "impressum"]):
+                            if surl not in pages_to_check:
+                                pages_to_check.append(surl)
+            except Exception:
+                pass
 
-                try:
-                    robots_url = base + "/robots.txt"
-                    robots_html = self.crawler.fetch(robots_url, use_referrer=False)
-                    if robots_html:
-                        for line in robots_html.split("\n"):
-                            line = line.strip().lower()
-                            if line.startswith("disallow:") or line.startswith("allow:"):
-                                path_match = re.search(r"[:\s]+(/[^\s]+)", line)
-                                if path_match:
-                                    rpath = path_match.group(1)
-                                    rl = rpath.lower()
-                                    if any(kw in rl for kw in ["contact", "about", "team", "email",
-                                                               "support", "help", "admin", "staff",
-                                                               "legal", "privacy", "info", "office"]):
-                                        rurl = base + rpath
-                                        if rurl not in pages_to_check:
-                                            pages_to_check.append(rurl)
-                        rss_match = re.search(r"Sitemap:\s*(.+)", robots_html, re.I)
-                        if rss_match:
-                            rss_url = rss_match.group(1).strip()
-                            if not rss_url.startswith("http"):
-                                rss_url = base + rss_url
-                            rss_html = self.crawler.fetch(rss_url, use_referrer=False)
-                            if rss_html:
-                                rss_urls = re.findall(r"<loc>(.*?)</loc>", rss_html)
-                                for rurl in rss_urls[:20]:
+            try:
+                robots_url = base + "/robots.txt"
+                robots_html = self.crawler.fetch(robots_url, use_referrer=False)
+                if robots_html:
+                    for line in robots_html.split("\n"):
+                        line = line.strip().lower()
+                        if line.startswith("disallow:") or line.startswith("allow:"):
+                            path_match = re.search(r"[:\s]+(/[^\s]+)", line)
+                            if path_match:
+                                rpath = path_match.group(1)
+                                rl = rpath.lower()
+                                if any(kw in rl for kw in ["contact", "about", "team", "email",
+                                                           "support", "help", "admin", "staff"]):
+                                    rurl = base + rpath
                                     if rurl not in pages_to_check:
                                         pages_to_check.append(rurl)
-                except Exception:
-                    pass
+                    rss_match = re.search(r"Sitemap:\s*(.+)", robots_html, re.I)
+                    if rss_match:
+                        rss_url = rss_match.group(1).strip()
+                        if not rss_url.startswith("http"):
+                            rss_url = base + rss_url
+                        rss_html = self.crawler.fetch(rss_url, use_referrer=False)
+                        if rss_html:
+                            rss_urls = re.findall(r"<loc>(.*?)</loc>", rss_html)
+                            for rurl in rss_urls[:20]:
+                                if rurl not in pages_to_check:
+                                    pages_to_check.append(rurl)
+            except Exception:
+                pass
 
         checked_urls: Set[str] = set()
         all_emails: Set[str] = set()
@@ -524,39 +415,11 @@ class WebsiteIntelligenceExtractor:
                     if tg:
                         telegram = tg
 
-                inline_js_emails = set()
-                for script in soup.find_all("script"):
-                    if script.string:
-                        js_text = script.string
-                        found = re.findall(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}", js_text)
-                        for email in found:
-                            if self._is_valid_email(email):
-                                inline_js_emails.add(email.lower())
-                        for match in re.findall(r"String\.fromCharCode\((\d+(?:,\d+)+)\)", js_text):
-                            decoded = self._decode_string_fromcharcode(match)
-                            if "@" in decoded:
-                                found = re.findall(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}", decoded)
-                                for email in found:
-                                    if self._is_valid_email(email):
-                                        inline_js_emails.add(email.lower())
-                all_emails.update(inline_js_emails)
-                if inline_js_emails:
-                    emails_found = True
-
                 if emails_found and all_phones and all_social and found_names:
                     break
 
             except Exception:
                 continue
-
-        if not all_emails:
-            try:
-                guessed_emails = self._guess_email_patterns(domain)
-                all_emails.update(guessed_emails)
-                if all_emails:
-                    emails_found = True
-            except Exception:
-                pass
 
         if not all_emails and not captcha_detected:
             parsed = urlparse(website_url)
@@ -576,14 +439,10 @@ class WebsiteIntelligenceExtractor:
                         if any(kw in link_text for kw in ["contact", "about", "team", "staff", "email",
                                                            "support", "help", "reach", "touch", "write",
                                                            "nous", "contacter", "about", "kontakt",
-                                                           "-contact", "about-us", "team",
-                           "legal", "privacy", "terms", "info", "office",
-                           "directory", "customer-service", "who-we-are",
-                           "imprint", "disclaimer", "footer", "careers",
-                           "jobs", "partners", "press", "media"]):
+                                                           "-contact", "about-us", "team"]):
                             if href not in checked_urls:
                                 internal_links.add(href)
-                    for link_url in list(internal_links)[:15]:
+                    for link_url in list(internal_links)[:self.config.max_pages_per_website]:
                         if link_url in checked_urls:
                             continue
                         checked_urls.add(link_url)
@@ -658,21 +517,11 @@ class WebsiteIntelligenceExtractor:
             except Exception:
                 pass
 
-        # Fallback: WordPress REST API
+        # Fallback: Email pattern guessing from domain
         if not all_emails and not captcha_detected:
             try:
-                wp_emails = self._extract_emails_from_wordpress_api(base)
-                all_emails.update(wp_emails)
-                if all_emails:
-                    emails_found = True
-            except Exception:
-                pass
-
-        # Fallback: CMS paths (WordPress, GraphQL, APIs)
-        if not all_emails and not captcha_detected:
-            try:
-                cms_emails = self._extract_emails_from_cms_paths(base)
-                all_emails.update(cms_emails)
+                guessed_emails = self._guess_email_patterns(domain)
+                all_emails.update(guessed_emails)
                 if all_emails:
                     emails_found = True
             except Exception:
@@ -751,12 +600,6 @@ class WebsiteIntelligenceExtractor:
             if decoded and self._is_valid_email(decoded):
                 emails.add(decoded.lower())
 
-        cf_pattern = re.compile(r'data-cfemail\s*=\s*["\']([a-fA-F0-9]+)["\']', re.I)
-        for match in cf_pattern.finditer(html):
-            decoded = self._decode_cfemail(match.group(1))
-            if decoded and self._is_valid_email(decoded):
-                emails.add(decoded.lower())
-
         for pattern in self.EMAIL_REGEXES:
             matches = re.findall(pattern, html, re.I)
             for match in matches:
@@ -828,88 +671,6 @@ class WebsiteIntelligenceExtractor:
             decoded = self._decode_base64_email(encoded)
             if decoded and self._is_valid_email(decoded):
                 emails.add(decoded.lower())
-
-        deobfuscated = self._decode_common_obfuscation(html)
-        if "@" in deobfuscated:
-            found = re.findall(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}", deobfuscated)
-            for email in found:
-                if self._is_valid_email(email):
-                    emails.add(email.lower())
-
-        for match in re.findall(r'(?:var|let|const)\s+\w+\s*=\s*\[(["\'][^"\']+["\'](?:\s*,\s*["\'][^"\']+["\'])*)\]', html):
-            parts = re.findall(r'["\']([^"\']+)["\']', match)
-            if parts:
-                reconstructed = "".join(parts)
-                if "@" in reconstructed:
-                    found = re.findall(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}", reconstructed)
-                    for email in found:
-                        if self._is_valid_email(email):
-                            emails.add(email.lower())
-
-        for match in re.findall(r'\\x([0-9a-fA-F]{2})', html):
-            pass
-        hex_strings = re.findall(r'(?:["\']|`)((?:\\x[0-9a-fA-F]{2}){5,})', html)
-        for hstr in hex_strings:
-            try:
-                decoded = bytes(hstr, 'utf-8').decode('unicode_escape')
-                if "@" in decoded:
-                    found = re.findall(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}", decoded)
-                    for email in found:
-                        if self._is_valid_email(email):
-                            emails.add(email.lower())
-            except Exception:
-                pass
-
-        for match in re.findall(r'\\u([0-9a-fA-F]{4})', html):
-            pass
-        unicode_strings = re.findall(r'(?:["\']|`)((?:\\u[0-9a-fA-F]{4}){5,})', html)
-        for ustr in unicode_strings:
-            try:
-                decoded = bytes(ustr, 'utf-8').decode('unicode_escape')
-                if "@" in decoded:
-                    found = re.findall(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}", decoded)
-                    for email in found:
-                        if self._is_valid_email(email):
-                            emails.add(email.lower())
-            except Exception:
-                pass
-
-        for match in re.finditer(r"rgb(?:a)?\((\d{1,3}(?:\s*,\s*\d{1,3}){2,})\)", html):
-            nums = re.findall(r"\d{1,3}", match.group(1))
-            if len(nums) >= 3:
-                try:
-                    decoded = "".join(chr(int(n)) for n in nums if 32 <= int(n) <= 126)
-                    if "@" in decoded and "." in decoded:
-                        found = re.findall(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}", decoded)
-                        for email in found:
-                            if self._is_valid_email(email):
-                                emails.add(email.lower())
-                except Exception:
-                    pass
-
-        hydration_patterns = [
-            r"window\.__NEXT_DATA__\s*=\s*(\{.*?\})\s*(?:;|</script>)",
-            r"window\.__INITIAL_STATE__\s*=\s*(\{.*?\})\s*(?:;|</script>)",
-            r"window\.__APP_DATA__\s*=\s*(\{.*?\})\s*(?:;|</script>)",
-        ]
-        for hp in hydration_patterns:
-            for match in re.finditer(hp, html, re.S):
-                blob = match.group(1)
-                found = re.findall(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}", blob)
-                for email in found:
-                    if self._is_valid_email(email):
-                        emails.add(email.lower())
-
-        for container in soup.find_all(["div", "span", "p", "a", "td"]):
-            text = container.get_text()
-            parts = re.split(r"\s+", text.strip())
-            for i in range(len(parts) - 1):
-                if "@" in parts[i]:
-                    combined = parts[i] + parts[i+1]
-                    found = re.findall(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}", combined)
-                    for email in found:
-                        if self._is_valid_email(email):
-                            emails.add(email.lower())
 
         return emails
 
@@ -1210,102 +971,16 @@ class WebsiteIntelligenceExtractor:
             pass
         return ""
 
-    def _decode_common_obfuscation(self, text: str) -> str:
-        """Decode [at], [dot], HTML entities, ROT13, and other common obfuscations."""
-        import html as html_mod
-        decoded = text
-
-        decoded = html_mod.unescape(decoded)
-        decoded = re.sub(r"&#(\d+);", lambda m: chr(int(m.group(1))), decoded)
-        decoded = re.sub(r"&#x([0-9a-fA-F]+);", lambda m: chr(int(m.group(1), 16)), decoded)
-
-        try:
-            import codecs
-            rot13 = codecs.decode(text, "rot_13")
-            if "@" in rot13:
-                decoded += " " + rot13
-        except Exception:
-            pass
-
-        decoded = re.sub(r"\s*\[at\]\s*", "@", decoded, flags=re.I)
-        decoded = re.sub(r"\s*\[dot\]\s*", ".", decoded, flags=re.I)
-        decoded = re.sub(r"\s*\(at\)\s*", "@", decoded, flags=re.I)
-        decoded = re.sub(r"\s*\(dot\)\s*", ".", decoded, flags=re.I)
-        decoded = re.sub(r"\s*\{at\}\s*", "@", decoded, flags=re.I)
-        decoded = re.sub(r"\s*\{dot\}\s*", ".", decoded, flags=re.I)
-        decoded = re.sub(r"\s*<at>\s*", "@", decoded, flags=re.I)
-        decoded = re.sub(r"\s*<dot>\s*", ".", decoded, flags=re.I)
-        decoded = re.sub(r"\s*AT\s*", "@", decoded)
-        decoded = re.sub(r"\s*DOT\s*", ".", decoded)
-
-        return decoded
-
-    VALID_TLDS = {
-        "com", "net", "org", "edu", "gov", "mil", "int",
-        "co", "io", "me", "us", "uk", "ca", "au", "de", "fr", "es", "it",
-        "nl", "pl", "pt", "ru", "tr", "jp", "cn", "kr", "br", "mx", "ar",
-        "at", "ch", "be", "se", "no", "dk", "fi", "cz", "sk", "hu", "ro",
-        "bg", "hr", "si", "ee", "lv", "lt", "ie", "gr", "cy", "mt",
-        "lu", "sa", "ae", "eg", "ma", "za", "ng", "ke", "in", "pk", "bd",
-        "sg", "my", "th", "vn", "ph", "id", "tw", "hk", "nz", "il",
-        "info", "biz", "name", "pro", "mobi", "travel", "museum", "aero",
-        "coop", "jobs", "cat", "tel", "asia", "xxx", "post",
-        "nyc", "tokyo", "berlin", "paris", "amsterdam", "london",
-        "vegas", "miami", "sydney", "melbourne", "toronto", "vancouver",
-        "page", "dev", "app", "tech", "online", "site", "website",
-        "store", "shop", "space", "one", "club",
-    }
-
     def _is_valid_email(self, email: str) -> bool:
         """Validate email address."""
         if not email or len(email) < 5 or len(email) > 100:
             return False
         if not re.match(r"^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$", email):
             return False
-        domain = email.split("@")[-1].lower()
-        tld = domain.rsplit(".", 1)[-1] if "." in domain else ""
-        if tld in self.FAKE_TLDS:
-            return False
-        if tld not in self.VALID_TLDS:
-            return False
-        if domain.startswith("www."):
-            return False
         for pattern in self.IGNORE_EMAILS:
-            if re.search(pattern, email, re.I):
+            if re.match(pattern, email, re.I):
                 return False
-        try:
-            import codecs
-            decoded = codecs.decode(email, "rot_13")
-            if decoded != email:
-                junk_domains = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com", "aol.com", "domain.com", "example.com", "test.com"]
-                local = decoded.split("@")[0].lower() if "@" in decoded else ""
-                domain = decoded.split("@")[1].lower() if "@" in decoded else ""
-                if domain in junk_domains:
-                    return False
-                junk_locals = ["user", "test", "admin", "info", "contact", "support", "hello", "benutzer", "usuario", "utilisateur", "utente", "nome", "prenom", "votre", "email"]
-                if local in junk_locals:
-                    return False
-        except Exception:
-            pass
         return True
-
-    def classify_business(self, text: str) -> str:
-        """Classify business type from website content text."""
-        if not text:
-            return "unknown"
-        text_lower = text.lower()
-        scores = {}
-        for btype, keywords in self.BUSINESS_TYPES.items():
-            if not keywords:
-                continue
-            score = sum(1 for kw in keywords if kw in text_lower)
-            if score > 0:
-                scores[btype] = score
-        if scores:
-            best = max(scores, key=scores.get)
-            if scores[best] >= 2:
-                return best
-        return "unknown"
 
     def _is_valid_phone(self, phone: str) -> bool:
         """Validate phone number."""
@@ -1512,7 +1187,7 @@ class WebsiteIntelligenceExtractor:
                     src = urljoin(base_url, src)
                 if src.startswith(base_url.rstrip("/")):
                     js_urls.add(src)
-            for js_url in list(js_urls)[:20]:
+            for js_url in list(js_urls)[:10]:
                 try:
                     js_html = self.crawler.fetch(js_url, use_referrer=True)
                     if not js_html:
@@ -1534,39 +1209,6 @@ class WebsiteIntelligenceExtractor:
                     continue
         except Exception:
             pass
-        return emails
-
-    def _extract_emails_from_cms_paths(self, base_url: str) -> Set[str]:
-        """Check common WordPress/CMS paths for emails."""
-        emails = set()
-        cms_paths = [
-            "/wp-json/wp/v2/users",
-            "/wp-json/wp/v2/settings",
-            "/wp-json/wp/v2/pages?per_page=100",
-            "/xmlrpc.php",
-            "/wp-login.php",
-            "/wp-admin/admin-ajax.php",
-            "/feed/",
-            "/comments/feed/",
-            "/?rest_route=/wp/v2/users",
-            "/graphql",
-            "/api/users",
-            "/api/contact",
-            "/api/settings",
-            "/.well-known/security.txt",
-            "/security.txt",
-        ]
-        for path in cms_paths:
-            try:
-                url = base_url.rstrip("/") + path
-                html = self.crawler.fetch(url, use_referrer=False)
-                if html:
-                    found = re.findall(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}", html)
-                    for email in found:
-                        if self._is_valid_email(email):
-                            emails.add(email.lower())
-            except Exception:
-                continue
         return emails
 
     def _extract_emails_from_pdfs(self, base_url: str) -> Set[str]:
@@ -1700,23 +1342,15 @@ class WebsiteIntelligenceExtractor:
         return emails
 
     def _guess_email_patterns(self, domain: str) -> Set[str]:
-        """Try common email patterns by checking MX records exist."""
+        """Try common email patterns by sending SMTP probes to verify deliverability."""
         emails = set()
-        try:
-            import dns.resolver
-            mx_records = dns.resolver.resolve(domain, "MX")
-            if not mx_records:
-                return emails
-        except Exception:
-            return emails
-
         prefixes = ["info", "contact", "hello", "office", "admin", "support",
                      "reservations", "booking", "reservation", "sales", "team",
-                     "mail", "welcome", "service", "help", "general",
-                     "press", "media", "careers", "jobs", "hr", "legal",
-                     "billing", "accounts", "feedback", "enquiries"]
+                     "mail", "welcome", "service", "help", "general"]
         for prefix in prefixes:
-            emails.add(f"{prefix}@{domain}")
+            email = f"{prefix}@{domain}"
+            if self._verify_email_smtp(email):
+                emails.add(email)
         return emails
 
     def _verify_email_smtp(self, email: str) -> bool:
@@ -1743,35 +1377,15 @@ class WebsiteIntelligenceExtractor:
             if not mx_records:
                 return False
             mx_records.sort()
-            for port in [25, 587, 465]:
-                try:
-                    smtp = smtplib.SMTP(timeout=5)
-                    smtp.connect(mx_records[0], port)
-                    smtp.helo("test.com")
-                    smtp.mail("test@test.com")
-                    code, _ = smtp.rcpt(email)
-                    smtp.quit()
-                    return code == 250
-                except Exception:
-                    continue
-            return False
+            smtp = smtplib.SMTP(timeout=5)
+            smtp.connect(mx_records[0], 25)
+            smtp.helo("test.com")
+            smtp.mail("test@test.com")
+            code, _ = smtp.rcpt(email)
+            smtp.quit()
+            return code == 250
         except Exception:
             return False
-
-    def _extract_emails_from_wordpress_api(self, base_url: str) -> Set[str]:
-        """Check WordPress REST API for author emails."""
-        emails = set()
-        try:
-            api_url = base_url.rstrip("/") + "/wp-json/wp/v2/users"
-            html = self.crawler.fetch(api_url, use_referrer=False)
-            if html:
-                found = re.findall(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}", html)
-                for email in found:
-                    if self._is_valid_email(email):
-                        emails.add(email.lower())
-        except Exception:
-            pass
-        return emails
 
     def _search_bing_for_emails(self, domain: str) -> Set[str]:
         """Search Bing for emails on a specific domain."""
@@ -1838,11 +1452,6 @@ class WebsiteIntelligenceExtractor:
                 f"facebook.com",
                 f"linkedin.com/company",
                 f"instagram.com",
-                f"twitter.com",
-                f"x.com",
-                f"tiktok.com",
-                f"youtube.com",
-                f"pinterest.com",
             ]
 
             company_name = domain.split(".")[0].replace("-", " ").replace("_", " ")

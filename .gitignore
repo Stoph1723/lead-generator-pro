@@ -31,9 +31,6 @@ output/
 *.csv
 *.xlsx
 
-# Config with API keys (use config_template.py instead)
-client_finder/config.py
-
 # Cache
 cache/
 *.cache
