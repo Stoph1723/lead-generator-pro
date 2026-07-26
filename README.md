@@ -18,6 +18,12 @@
 
 ---
 
+## Showcase
+
+![Lead Generator Pro Showcase](screenshot.png)
+
+---
+
 ## Screenshots
 
 ### Interactive Menu
