@@ -31,6 +31,9 @@ output/
 *.csv
 *.xlsx
 
+# Client Finder (moved to separate repo)
+client_finder/
+
 # Cache
 cache/
 *.cache
