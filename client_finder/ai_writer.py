@@ -183,18 +183,32 @@ def write_cold_email(business: Dict) -> Optional[Dict]:
 
 Write in {lang_name} language.
 
-Rules:
-- Start with "Hi {biz_name} team,"
-- First line: mention something specific about their business (rating, reviews, what they do)
-- Pick 3-4 services that fit a {biz_category}
-- After each service, explain WHY they need it — make them want it
-- Format: "- Service — why they need this and what result it gets"
-- End with a soft call to action
-- 50-120 words total
-- No buzzwords, no emojis
-- ALWAYS end with: {greeting}\\n{SENDER_NAME}\\n{SENDER_PORTFOLIO}
+Use this EXACT format — only change the business name and the 4 services:
 
-All services (pick the best 3-4):
+Subject: Quick question about your business
+
+Body:
+Hi [business name] team,
+
+I found your website business and wanted to reach out.
+
+I'm a Python developer specializing in automation bots. I can build:
+
+- [Service 1]
+- [Service 2]
+- [Service 3]
+- [Service 4]
+
+I work fast and deliver clean, working code.
+
+Interested? Just reply to this email.
+
+{greeting}
+{SENDER_NAME}
+{SENDER_PORTFOLIO}
+
+Pick 4 services from the list below that fit a {biz_category}:
+
 {services_text}
 
 Return ONLY valid JSON: {{"subject": "...", "body": "..."}}"""
